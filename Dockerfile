@@ -1,6 +1,11 @@
 FROM php:8.2-fpm-alpine3.17
 
-RUN apk add --no-cache openssl bash nodejs npm postgresql-dev --update linux-headers
+RUN apk add --no-cache openssl bash nodejs npm postgresql-dev alpine-sdk autoconf librdkafka-dev --update linux-headers
+
+RUN pecl install rdkafka
+
+RUN ln -s /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini && \
+    echo "extension=rdkafka.so" >> /usr/local/etc/php/php.ini
 
 RUN docker-php-ext-install pdo pdo_pgsql bcmath
 

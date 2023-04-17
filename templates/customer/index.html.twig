@@ -13,11 +13,6 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Address</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zipcode</th>
-                <th>actions</th>
-            </tr>
         </thead>
         <tbody>
         {% for customer in customers %}
@@ -26,10 +21,6 @@
                 <td>{{ customer.name }}</td>
                 <td>{{ customer.email }}</td>
                 <td>{{ customer.phone }}</td>
-                <td>{{ customer.address }}</td>
-                <td>{{ customer.city }}</td>
-                <td>{{ customer.state }}</td>
-                <td>{{ customer.zipcode }}</td>
                 <td>
                     <a href="{{ path('app_customer_show', {'id': customer.id}) }}">show</a>
                     <a href="{{ path('app_customer_edit', {'id': customer.id}) }}">edit</a>
