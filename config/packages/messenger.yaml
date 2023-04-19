@@ -4,26 +4,8 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    topic:
-                        name: customers
-                retry_strategy:
-                    max_retries: 3
-                    multiplier: 2
-            failed_customer: 'doctrine://default?queue_name=failed'
-
-            # async_producer:
-            #     dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-            #     options:
-            #         topic:
-            #             name: producers
-            #     retry_strategy:
-            #         max_retries: 3
-            #         multiplier: 2
-            # failed_producer: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            customers: '%env(MESSENGER_TRANSPORT_DSN_CUSTOMERS)%'
+            products: '%env(MESSENGER_TRANSPORT_DSN_PRODUCTS)%'
 
         routing:
             # Symfony\Component\Mailer\Messenger\SendEmailMessage: async
@@ -32,4 +14,5 @@ framework:
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
-            App\Message\KafkaMessage: async
+            App\Message\CustomersMessage: customers
+            App\Message\ProductsMessage: products

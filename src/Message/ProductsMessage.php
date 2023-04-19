@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Message;
 
-class KafkaMessage
+class ProductsMessage
 {
     public function __construct(
         private string $content,

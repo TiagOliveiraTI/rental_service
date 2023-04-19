@@ -6,19 +6,18 @@ namespace App\MessageHandler;
 
 
 use App\Entity\Customer;
-use App\Message\KafkaMessage;
+use App\Message\CustomersMessage;
 use Symfony\Component\Uid\Uuid;
 use App\Repository\CustomerRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-
-#[AsMessageHandler(fromTransport: 'async')]
-class KafkaHandler
+#[AsMessageHandler(fromTransport: 'customers')]
+class CustomersMessageHandler
 {
     public function __construct(private CustomerRepository $repository)
     {}
 
-    public function __invoke(KafkaMessage $message)
+    public function __invoke(CustomersMessage $message)
     {
         $receivedMessage = json_decode($message->getContent());
 
