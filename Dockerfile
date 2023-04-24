@@ -1,6 +1,10 @@
 FROM php:8.2-fpm-alpine3.17
 
-RUN apk add --no-cache openssl bash nodejs npm postgresql-dev alpine-sdk autoconf librdkafka-dev --update linux-headers
+RUN apk add --no-cache openssl bash nodejs npm postgresql-dev alpine-sdk autoconf librdkafka-dev nginx openrc --update linux-headers
+
+RUN mkdir -p /run/nginx && \
+    echo "pid /run/nginx.pid;" >> /etc/nginx/nginx.conf
+
 
 RUN pecl install rdkafka
 
@@ -20,5 +24,18 @@ RUN rm -rf /var/www/html
 RUN ln -s public html
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.5.5
 
-EXPOSE 9000
-ENTRYPOINT [ "php-fpm" ]
+# RUN rm /etc/nginx/conf.d/default.conf
+
+COPY .docker/nginx/nginx.conf /etc/nginx/conf.d
+
+COPY . .
+
+RUN composer install
+
+RUN chmod -R 777 ./var/*
+
+RUN chmod +x ./entrypoint.sh
+
+EXPOSE 80
+
+ENTRYPOINT [ "/var/www/entrypoint.sh" ]
